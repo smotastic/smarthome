@@ -1,0 +1,13 @@
+package de.smotastic.radioalarm;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class RadioalarmApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
