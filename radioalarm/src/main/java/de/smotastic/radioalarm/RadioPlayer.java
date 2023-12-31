@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -15,33 +16,37 @@ public class RadioPlayer {
 
     Player player;
     Thread startingThread;
+    Runnable task;
 
     public RadioPlayer() {
-        try {
-            InputStream input = new URL("http://mp3.ffh.de/radioffh/hqlivestream.mp3").openStream();
-            BufferedInputStream buffer = new BufferedInputStream(input);
-            player = new Player(buffer);
+        task = () -> {
+            try {
+                InputStream input = new URL("http://mp3.ffh.de/radioffh/hqlivestream.mp3").openStream();
+                BufferedInputStream buffer = new BufferedInputStream(input);
+                player = new Player(buffer);
+                player.play();
+            } catch (JavaLayerException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        };
 
-            startingThread = new Thread(() -> {
-                try {
-                    player.play();
-                } catch (JavaLayerException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        } catch (Exception ex) {
-            log.error("Player init failed", ex);
-        }
     }
 
     public void play() {
         log.info("PLAY");
-        startingThread.start();
+        if (startingThread == null || !startingThread.isAlive()) {
+            startingThread = new Thread(task);
+            startingThread.start();
+        }
     }
 
     public void stop() {
         player.close();
-        startingThread.interrupt();
+        try {
+            startingThread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
