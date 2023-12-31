@@ -14,28 +14,34 @@ import java.net.URL;
 public class RadioPlayer {
 
     Player player;
+    Thread startingThread;
 
     public RadioPlayer() {
         try {
             InputStream input = new URL("http://mp3.ffh.de/radioffh/hqlivestream.mp3").openStream();
             BufferedInputStream buffer = new BufferedInputStream(input);
             player = new Player(buffer);
+
+            startingThread = new Thread(() -> {
+                try {
+                    player.play();
+                } catch (JavaLayerException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         } catch (Exception ex) {
-            System.out.println("Error occured during playback process:" + ex.getMessage());
+            log.error("Player init failed", ex);
         }
     }
 
     public void play() {
-        try {
-            log.info("PLAY");
-            player.play();
-        } catch (JavaLayerException e) {
-            throw new RuntimeException(e);
-        }
+        log.info("PLAY");
+        startingThread.start();
     }
 
     public void stop() {
         player.close();
+        startingThread.interrupt();
     }
 
 }
