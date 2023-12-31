@@ -26,10 +26,21 @@ public class RadioController {
         return ResponseEntity.of(Optional.of("OK"));
     }
 
-    @PostMapping("/volume/{gain}")
+    //@PostMapping("/volume/{gain}")
     public ResponseEntity<String> volume(@PathVariable Float gain) {
         radioPlayer.setVolume(gain);
         return ResponseEntity.of(Optional.of("OK"));
     }
 
+    @PostMapping("/volume/down/{gain}")
+    public ResponseEntity<String> volumeDown(@PathVariable(required = false) Optional<Float> gain) {
+        radioPlayer.reduceVolumn(gain);
+        return ResponseEntity.of(Optional.of("OK"));
+    }
+
+    @PostMapping("/volume/increase/{gain}")
+    public ResponseEntity<String> volumeIncrease(@PathVariable(required = false) Optional<Float> gain) {
+        radioPlayer.increaseVolumn(gain);
+        return ResponseEntity.of(Optional.of("OK"));
+    }
 }

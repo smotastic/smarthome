@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.net.URL;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -27,18 +28,18 @@ public class RadioPlayer {
     private AudioDevice device;
     private FloatControl volControl;
 
-    public void setVolume(float gain){
-        log.info("Volume");
-        if(this.volControl == null) {
+
+    private void initVolume() {
+        if (this.volControl == null) {
             Class<JavaSoundAudioDevice> clazz = JavaSoundAudioDevice.class;
             Field[] fields = clazz.getDeclaredFields();
-            try{
+            try {
                 SourceDataLine source;
-                for(Field field : fields) {
-                    if("source".equals(field.getName())) {
+                for (Field field : fields) {
+                    if ("source".equals(field.getName())) {
                         field.setAccessible(true);
                         source = (SourceDataLine) field.get(this.device);
-                        if(source != null) {
+                        if (source != null) {
                             field.setAccessible(false);
                             this.volControl = (FloatControl) source.getControl(FloatControl.Type.MASTER_GAIN);
                         }
@@ -49,12 +50,40 @@ public class RadioPlayer {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void reduceVolumn(Optional<Float> gain) {
+        log.info("Reduce Volume");
+        initVolume();
+        if (this.volControl != null) {
+            float targetVol = volControl.getValue() - gain.orElse(1.0f);
+            float newVol = Math.min(Math.max(targetVol, volControl.getMinimum()), volControl.getMaximum());
+            log.info("Reducing from {} to {}", volControl.getValue(), targetVol);
+            volControl.setValue(newVol);
+        }
+    }
+
+    public void increaseVolumn(Optional<Float> gain) {
+        log.info("Increase Volume");
+        initVolume();
+        if (this.volControl != null) {
+            float targetVol = volControl.getValue() + (gain.orElse(0.1f));
+            float newVol = Math.min(Math.max(targetVol, volControl.getMinimum()), volControl.getMaximum());
+            log.info("Increasing from {} to {}", volControl.getValue(), targetVol);
+            volControl.setValue(newVol);
+        }
+    }
+
+    public void setVolume(float gain) {
+        log.info("Set Volume {}", gain);
+        initVolume();
         if (this.volControl != null) {
             float newGain = Math.min(Math.max(gain, volControl.getMinimum()), volControl.getMaximum());
             log.info("Was: " + volControl.getValue() + " Will be: " + newGain);
             volControl.setValue(newGain);
         }
     }
+
     public RadioPlayer() {
         task = () -> {
             try {
