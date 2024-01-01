@@ -28,6 +28,21 @@ public class RadioPlayer {
     private AudioDevice device;
     private FloatControl volControl;
 
+    public RadioPlayer() {
+        task = () -> {
+            try {
+                InputStream input = new URL("http://mp3.ffh.de/radioffh/hqlivestream.mp3").openStream();
+                BufferedInputStream buffer = new BufferedInputStream(input);
+                this.device = FactoryRegistry.systemRegistry().createAudioDevice();
+                player = new AdvancedPlayer(buffer, device);
+
+                player.play();
+            } catch (JavaLayerException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        };
+
+    }
 
     private void initVolume() {
         if (this.volControl == null) {
@@ -84,21 +99,7 @@ public class RadioPlayer {
         }
     }
 
-    public RadioPlayer() {
-        task = () -> {
-            try {
-                InputStream input = new URL("http://mp3.ffh.de/radioffh/hqlivestream.mp3").openStream();
-                BufferedInputStream buffer = new BufferedInputStream(input);
-                this.device = FactoryRegistry.systemRegistry().createAudioDevice();
-                player = new AdvancedPlayer(buffer, device);
 
-                player.play();
-            } catch (JavaLayerException | IOException e) {
-                throw new RuntimeException(e);
-            }
-        };
-
-    }
 
     public void play() {
         log.info("Play");
@@ -111,6 +112,7 @@ public class RadioPlayer {
     public void stop() {
         log.info("Stop");
         player.close();
+        volControl = null;
         try {
             startingThread.join();
         } catch (InterruptedException e) {
