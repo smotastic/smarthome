@@ -1,10 +1,10 @@
 package de.smotastic.radioalarm;
 
+import de.smotastic.radioalarm.data.VolumeControlResponse;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.FactoryRegistry;
 import javazoom.jl.player.JavaSoundAudioDevice;
-import javazoom.jl.player.Player;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -67,37 +67,42 @@ public class RadioPlayer {
         }
     }
 
-    public void reduceVolumn(Optional<Float> gain) {
+    public VolumeControlResponse decreaseVolumn(Optional<Float> gain) {
         log.info("Reduce Volume");
         initVolume();
         if (this.volControl != null) {
-            float targetVol = volControl.getValue() - gain.orElse(1.0f);
+            float oldVol = volControl.getValue();
+            float targetVol = oldVol - gain.orElse(1.0f);
             float newVol = Math.min(Math.max(targetVol, volControl.getMinimum()), volControl.getMaximum());
             log.info("Reducing from {} to {}", volControl.getValue(), targetVol);
             volControl.setValue(newVol);
+            return new VolumeControlResponse("Volume reduced", newVol, oldVol);
         }
+        throw new RuntimeException("Volume could not be decreased");
     }
 
-    public void increaseVolumn(Optional<Float> gain) {
+    public VolumeControlResponse increaseVolumn(Optional<Float> gain) {
         log.info("Increase Volume");
         initVolume();
         if (this.volControl != null) {
-            float targetVol = volControl.getValue() + (gain.orElse(0.1f));
+            float oldVol = volControl.getValue();
+            float targetVol = oldVol + (gain.orElse(0.1f));
             float newVol = Math.min(Math.max(targetVol, volControl.getMinimum()), volControl.getMaximum());
             log.info("Increasing from {} to {}", volControl.getValue(), targetVol);
             volControl.setValue(newVol);
+            return new VolumeControlResponse("Volume increased", newVol, oldVol);
         }
+        throw new RuntimeException("Volume could not be increased");
     }
 
-    public void setVolume(float gain) {
-        log.info("Set Volume {}", gain);
-        initVolume();
-        if (this.volControl != null) {
-            float newGain = Math.min(Math.max(gain, volControl.getMinimum()), volControl.getMaximum());
-            log.info("Was: " + volControl.getValue() + " Will be: " + newGain);
-            volControl.setValue(newGain);
-        }
-    }
+   public Float receiveVolumn() {
+       log.info("Receive Volume");
+       initVolume();
+       if (this.volControl != null) {
+           return volControl.getValue();
+       }
+       throw new RuntimeException("Volume could not be received");
+   }
 
 
 

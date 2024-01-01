@@ -1,7 +1,9 @@
 package de.smotastic.radioalarm;
 
+import de.smotastic.radioalarm.data.VolumeControlResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,21 +28,20 @@ public class RadioController {
         return ResponseEntity.of(Optional.of("OK"));
     }
 
-    //@PostMapping("/volume/{gain}")
-    public ResponseEntity<String> volume(@PathVariable Float gain) {
-        radioPlayer.setVolume(gain);
-        return ResponseEntity.of(Optional.of("OK"));
+    @PostMapping("/volume/decrease/{value}")
+    public ResponseEntity<VolumeControlResponse> volumeDecrease(@PathVariable(required = false) Optional<Float> value) {
+        VolumeControlResponse volumeControlResponse = radioPlayer.decreaseVolumn(value);
+        return ResponseEntity.of(Optional.of(volumeControlResponse));
     }
 
-    @PostMapping("/volume/down/{gain}")
-    public ResponseEntity<String> volumeDown(@PathVariable(required = false) Optional<Float> gain) {
-        radioPlayer.reduceVolumn(gain);
-        return ResponseEntity.of(Optional.of("OK"));
+    @PostMapping("/volume/increase/{value}")
+    public ResponseEntity<VolumeControlResponse> volumeIncrease(@PathVariable(required = false) Optional<Float> value) {
+        VolumeControlResponse volumeControlResponse = radioPlayer.increaseVolumn(value);
+        return ResponseEntity.of(Optional.of(volumeControlResponse));
     }
 
-    @PostMapping("/volume/increase/{gain}")
-    public ResponseEntity<String> volumeIncrease(@PathVariable(required = false) Optional<Float> gain) {
-        radioPlayer.increaseVolumn(gain);
-        return ResponseEntity.of(Optional.of("OK"));
+    @GetMapping("/volume")
+    public ResponseEntity<Float> volumeGet() {
+        return ResponseEntity.of(Optional.of(radioPlayer.receiveVolumn()));
     }
 }
