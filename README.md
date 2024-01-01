@@ -10,6 +10,7 @@ docker run smotastic/bla
 
 # Deployment
 ```bash
+cd radioalarm
 mvn clean install
 scp target/*.jar pi@raspberrypi:~/dev/smarthome/app.jar
 # kill any running services
