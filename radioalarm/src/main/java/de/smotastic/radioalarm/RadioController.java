@@ -1,6 +1,6 @@
 package de.smotastic.radioalarm;
 
-import de.smotastic.radioalarm.data.VolumeControlResponse;
+import de.smotastic.radioalarm.data.models.VolumeControlResponse;
 import de.smotastic.radioalarm.domain.RadioPlayerUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,8 @@ public class RadioController {
 
     @PostMapping("/play")
     public ResponseEntity<String> play() {
-        radioPlayer.play("http://mp3.ffh.de/radioffh/hqlivestream.mp3");
+        //
+        radioPlayer.play(1L);
         return ResponseEntity.of(Optional.of("OK"));
     }
 

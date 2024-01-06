@@ -1,9 +1,9 @@
-package de.smotastic.radioalarm.data;
+package de.smotastic.radioalarm.domain;
 
 import de.smotastic.radioalarm.data.models.VolumeControlResponse;
 
-public interface RadioPlayerDs {
-    void play(String url);
+public interface RadioPlayerPort {
+    void play(Long id);
     void stop();
     VolumeControlResponse increase(Float increase);
     VolumeControlResponse decrease(Float decrease);

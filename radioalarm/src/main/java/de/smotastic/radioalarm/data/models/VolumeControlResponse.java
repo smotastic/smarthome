@@ -1,4 +1,4 @@
-package de.smotastic.radioalarm.data;
+package de.smotastic.radioalarm.data.models;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

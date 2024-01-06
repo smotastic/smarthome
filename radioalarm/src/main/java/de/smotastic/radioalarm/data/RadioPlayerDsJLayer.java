@@ -1,12 +1,12 @@
 package de.smotastic.radioalarm.data;
 
+import de.smotastic.radioalarm.data.models.VolumeControlResponse;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.AudioDevice;
 import javazoom.jl.player.FactoryRegistry;
 import javazoom.jl.player.JavaSoundAudioDevice;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.SourceDataLine;
@@ -17,7 +17,6 @@ import java.lang.reflect.Field;
 import java.net.URL;
 
 @Slf4j
-@Component
 public class RadioPlayerDsJLayer implements RadioPlayerDs {
 
     AdvancedPlayer player;

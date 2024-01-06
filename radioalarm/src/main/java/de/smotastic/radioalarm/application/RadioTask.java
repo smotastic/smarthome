@@ -16,6 +16,6 @@ public class RadioTask {
     @Scheduled(cron = "0 30 5 * * MON-FRI")
     public void reportCurrentTime() {
         log.info("Good Morning!");
-        radioPlayer.play("http://mp3.ffh.de/radioffh/hqlivestream.mp3");
+        radioPlayer.play(1L);
     }
 }
