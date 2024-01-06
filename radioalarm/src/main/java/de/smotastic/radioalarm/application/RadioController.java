@@ -1,4 +1,4 @@
-package de.smotastic.radioalarm;
+package de.smotastic.radioalarm.application;
 
 import de.smotastic.radioalarm.data.models.VolumeControlResponse;
 import de.smotastic.radioalarm.domain.RadioPlayerUsecase;
@@ -17,10 +17,9 @@ public class RadioController {
 
     private final RadioPlayerUsecase radioPlayer;
 
-    @PostMapping("/play")
-    public ResponseEntity<String> play() {
-        //
-        radioPlayer.play(1L);
+    @PostMapping(value = {"/play", "/play/{id}"})
+    public ResponseEntity<String> play(@PathVariable Optional<Long> id) {
+        radioPlayer.play(id.orElse(1L));
         return ResponseEntity.of(Optional.of("OK"));
     }
 

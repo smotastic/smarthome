@@ -68,3 +68,35 @@ esac
 
 exit 0
 ```
+
+## Find Radiostations
+
+### Create DB
+```
+createdb radio
+createuser radiouser
+psql -d radio
+$ alter user radiouser with encrypted password 'qwerty';
+$ grant all privileges on database radiostation to radiouser;
+```
+
+### Create Table
+```postgresql
+create table if not exists public.radiostation
+(
+    name          varchar(1000),
+    url           varchar(1000),
+    state         varchar(102),
+    homepage      varchar(200),
+    tags          varchar(1000),
+    country       varchar(30),
+    countrycode   varchar(2),
+    language      varchar(300),
+    languagecodes varchar(103),
+    codec         varchar(50),
+    bitrate       numeric,
+    votes         numeric
+);
+```
+
+### Run Script
