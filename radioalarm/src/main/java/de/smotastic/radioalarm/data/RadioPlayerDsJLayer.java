@@ -41,7 +41,6 @@ public class RadioPlayerDsJLayer implements RadioPlayerDs {
 
     @Override
     public void stop() {
-        log.info("Stop");
         player.close();
         volControl = null;
     }
@@ -86,7 +85,6 @@ public class RadioPlayerDsJLayer implements RadioPlayerDs {
 
     @Override
     public VolumeControlResponse increase(Float increase) {
-        log.info("Increase Volume");
         initVolume();
         if (this.volControl != null) {
             float oldVol = volControl.getValue();
@@ -101,7 +99,6 @@ public class RadioPlayerDsJLayer implements RadioPlayerDs {
 
     @Override
     public Float getVolume() {
-        log.info("Receive Volume");
         initVolume();
         if (this.volControl != null) {
             return volControl.getValue();

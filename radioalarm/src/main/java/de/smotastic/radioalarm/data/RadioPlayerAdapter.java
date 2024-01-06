@@ -19,6 +19,7 @@ public class RadioPlayerAdapter implements RadioPlayerPort {
     public void play(Long id) {
         Optional<RadioStationModel> radioStationModel = radioStationDs.byId(id);
         if (radioStationModel.isPresent()) {
+            log.info("Found Radio {} for ID {}", radioStationModel.get().getName(), id);
             radioPlayerDs.play(radioStationModel.get().getUrl());
         } else {
             log.warn("No Radio Station found for ID {}", id);
