@@ -1,9 +1,8 @@
 package de.smotastic.radioalarm.application;
 
-import de.smotastic.radioalarm.RadioPlayer;
+import de.smotastic.radioalarm.domain.RadioPlayerUsecase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +11,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class RadioTask {
 
-    private final RadioPlayer radioPlayer;
+    private final RadioPlayerUsecase radioPlayer;
 
     @Scheduled(cron = "0 30 5 * * MON-FRI")
     public void reportCurrentTime() {
         log.info("Good Morning!");
-        radioPlayer.play();
+        radioPlayer.play("http://mp3.ffh.de/radioffh/hqlivestream.mp3");
     }
 }
