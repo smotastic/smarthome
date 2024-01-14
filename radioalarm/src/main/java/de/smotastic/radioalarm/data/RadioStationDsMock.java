@@ -14,8 +14,7 @@ public class RadioStationDsMock implements RadioStationDs {
             4L, new RadioStationModel("FFH Schlager","http://mp3.ffh.de/ffhchannels/hqschlager.mp3"),
             5L, new RadioStationModel("80s","http://streams.80s80s.de/web/mp3-192/streams.80s80s.de/"),
             6L, new RadioStationModel("Rock","http://mp3channels.webradio.rockantenne.de/rockantenne"),
-            7L, new RadioStationModel("90s","https://mp3.harmonyfm.de/hrmplus/hq90er.mp3"),
-            8L, new RadioStationModel("Riedberg","http://stream.laut.fm/studio-riedberg")
+            7L, new RadioStationModel("90s","https://mp3.harmonyfm.de/hrmplus/hq90er.mp3")
     );
 
     @Override
