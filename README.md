@@ -12,10 +12,11 @@ docker run smotastic/bla
 ```bash
 cd radioalarm
 #mvn clean install
-scp target/*.jar pi@raspberrypi:~/dev/smarthome/app.jar
 # kill any running services
 ssh pi@raspberrypi 'fuser -k 8080/tcp'
-ssh pi@raspberrypi 'java -jar ~/dev/smarthome/app.jar'
+scp target/*.jar pi@raspberrypi:~/dev/smarthome/app.jar
+ssh pi@raspberrypi 'java -jar /home/pi/dev/smarthome/app.jar > /dev/null &'
+'
 ```
 
 # Nice to have
