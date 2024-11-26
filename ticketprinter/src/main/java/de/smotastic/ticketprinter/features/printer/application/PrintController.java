@@ -1,13 +1,13 @@
 package de.smotastic.ticketprinter.features.printer.application;
 
 import de.smotastic.ticketprinter.features.printer.domain.PrintUsecase;
-import io.swagger.api.PrintApi;
+import io.swagger.api.V1Api;
 import io.swagger.model.ModelApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 
 @RequiredArgsConstructor
-public class PrintController implements PrintApi{
+public class PrintController implements V1Api {
 
     private final PrintUsecase printUsecase;
 
