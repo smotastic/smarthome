@@ -13,15 +13,15 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class PrinterFactory {
 
-//    @Bean
-//    public FindTicketDs findTicketDs(Environment env) {
-//        return new FindTicketDsTrello(env);
-//    }
-
     @Bean
-    public FindTicketDs findTicketDs() {
-        return new FindTicketDsMock();
+    public FindTicketDs findTicketDs(Environment env) {
+        return new FindTicketDsTrello(env);
     }
+
+//    @Bean
+//    public FindTicketDs findTicketDs() {
+//        return new FindTicketDsMock();
+//    }
 
     @Bean
     public FindTicketPort findTicketPort(FindTicketDs findTicketDs) {
