@@ -1,8 +1,10 @@
 package de.smotastic.ticketprinter.features.printer;
 
+import de.smotastic.ticketprinter.features.printer.data.CreatePdfAdapter;
 import de.smotastic.ticketprinter.features.printer.data.FindTicketAdapter;
 import de.smotastic.ticketprinter.features.printer.data.PrintAdapter;
 import de.smotastic.ticketprinter.features.printer.data.datasources.*;
+import de.smotastic.ticketprinter.features.printer.domain.CreatePdfPort;
 import de.smotastic.ticketprinter.features.printer.domain.FindTicketPort;
 import de.smotastic.ticketprinter.features.printer.domain.PrintPort;
 import de.smotastic.ticketprinter.features.printer.domain.PrintUsecase;
@@ -39,8 +41,18 @@ public class PrinterFactory {
     }
 
     @Bean
-    public PrintUsecase printUsecase(FindTicketPort findTicketPort, PrintPort printPort) {
-        return new PrintUsecase(findTicketPort, printPort);
+    public CreatePdfDs createPdfDs() {
+        return new CreatePdfDsIText();
+    }
+
+    @Bean
+    public CreatePdfPort createPdfPort(CreatePdfDs createPdfDs) {
+        return new CreatePdfAdapter(createPdfDs);
+    }
+
+    @Bean
+    public PrintUsecase printUsecase(FindTicketPort findTicketPort, PrintPort printPort, CreatePdfPort createPdfPort) {
+        return new PrintUsecase(findTicketPort, printPort, createPdfPort);
     }
 
 

@@ -9,11 +9,13 @@ public class PrintUsecase {
 
     private final FindTicketPort findTicketPort;
     private final PrintPort printPort;
+    private final CreatePdfPort createPdfPort;
 
     public boolean execute(String ticketId) {
         TicketEntity ticket = findTicketPort.by(ticketId);
         log.info("Found ticket {}", ticket);
-        printPort.print(ticket);
+        PrintEntity printEntity = createPdfPort.create(ticket);
+        printPort.print(printEntity);
         return true;
     }
 }
