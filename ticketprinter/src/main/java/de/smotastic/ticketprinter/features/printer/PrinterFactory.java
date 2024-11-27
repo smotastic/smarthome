@@ -1,6 +1,5 @@
 package de.smotastic.ticketprinter.features.printer;
 
-import de.smotastic.ticketprinter.features.printer.application.PrintController;
 import de.smotastic.ticketprinter.features.printer.data.FindTicketAdapter;
 import de.smotastic.ticketprinter.features.printer.data.PrintAdapter;
 import de.smotastic.ticketprinter.features.printer.data.datasources.FindTicketDs;
@@ -10,14 +9,11 @@ import de.smotastic.ticketprinter.features.printer.data.datasources.PrintDsMock;
 import de.smotastic.ticketprinter.features.printer.domain.FindTicketPort;
 import de.smotastic.ticketprinter.features.printer.domain.PrintPort;
 import de.smotastic.ticketprinter.features.printer.domain.PrintUsecase;
-import io.swagger.api.V1Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class PrinterFactory {
-
-
 
     @Bean
     public FindTicketDs findTicketDs() {
@@ -43,9 +39,6 @@ public class PrinterFactory {
     public PrintUsecase printUsecase(FindTicketPort findTicketPort, PrintPort printPort) {
         return new PrintUsecase(findTicketPort, printPort);
     }
-    @Bean
-    public V1Api printApi(PrintUsecase printUsecase) {
-        return new PrintController(printUsecase);
-    }
+
 
 }

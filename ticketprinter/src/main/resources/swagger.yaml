@@ -17,6 +17,10 @@ basePath: "/v2"
 schemes:
   - "https"
   - "http"
+consumes:
+  - application/json
+produces:
+  - application/json
 paths:
   /v1/print/{ticketId}:
     post:
@@ -34,15 +38,10 @@ paths:
         200:
           description: "successful operation"
           schema:
-            $ref: "#/definitions/ApiResponse"
+            $ref: "#/definitions/PrintResponse"
 definitions:
-  ApiResponse:
+  PrintResponse:
     type: "object"
     properties:
-      code:
-        type: "integer"
-        format: "int32"
-      type:
-        type: "string"
       message:
         type: "string"

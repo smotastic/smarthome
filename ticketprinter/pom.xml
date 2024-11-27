@@ -29,6 +29,7 @@
     <properties>
         <java.version>23</java.version>
         <swagger-annotations-version>1.5.21</swagger-annotations-version>
+        <jackson-version>2.11.4</jackson-version>
     </properties>
     <dependencies>
         <dependency>
@@ -76,6 +77,32 @@
             <scope>runtime</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-base</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson-version}</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -101,7 +128,6 @@
                                 <sourceFolder>src/main/java</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
                                 <library>spring-boot</library>
-                                <singleContentTypes>true</singleContentTypes>
                             </configOptions>
                             <output>${basedir}/target/generated-sources</output>
                             <!-- override the default library to jersey2 -->
