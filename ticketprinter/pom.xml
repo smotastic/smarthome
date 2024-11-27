@@ -128,6 +128,7 @@
                                 <sourceFolder>src/main/java</sourceFolder>
                                 <interfaceOnly>true</interfaceOnly>
                                 <library>spring-boot</library>
+                                <generateApis>false</generateApis>
                             </configOptions>
                             <output>${basedir}/target/generated-sources</output>
                             <!-- override the default library to jersey2 -->
