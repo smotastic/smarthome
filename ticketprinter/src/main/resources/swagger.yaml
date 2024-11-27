@@ -18,7 +18,7 @@ schemes:
   - "https"
   - "http"
 consumes:
-  - application/text
+  - application/json
 produces:
   - application/json
 paths:
